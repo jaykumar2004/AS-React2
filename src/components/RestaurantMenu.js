@@ -1,21 +1,35 @@
-import {useEffect} from "react";
+import { useEffect, useState } from "react";
+import Shimmer from "./Shimmer";
 
 const RestaurantMenu = () => {
+    const [resInfo, setResInfo] = useState(null);
 
     useEffect(() => {
-        fetchMenu()
-    }, [])
+        fetchMenu();
+    }, []);
 
     const fetchMenu = async () => {
-        const data = await fetch("https://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.77508727955646&lng=75.85139371454716&restaurantId=593447&catalog_qa=undefined&query=Pizza&submitAction=ENTER")
+        const data = await fetch(
+            "https://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.9753&lng=77.591&restaurantId=87869&catalog_qa=undefined&query=Burger&submitAction=ENTER"
+        );
 
         const json = await data.json();
-        console.log(json);
-    }
+        console.log("API Response:", json);
+        setResInfo(json.data);
+    };
+
+    if (resInfo === null) return <Shimmer />;
+
+    // ✅ Find the card that actually has restaurant info
+    const restaurantCard = resInfo?.cards?.find(
+        (c) => c?.card?.card?.info
+    );
+
+    const name = restaurantCard?.card?.card?.info?.name;
 
     return (
-        <h1 className="menu">
-            <h2>Name of the Restaurant</h2>
+        <div className="menu">
+            <h2>{name}</h2>
             <h3>Menu</h3>
             <ul>
                 <li>Item1</li>
@@ -25,7 +39,8 @@ const RestaurantMenu = () => {
                 <li>Item5</li>
                 <li>Item6</li>
             </ul>
-        </h1>
-    )
-}
-export default RestaurantMenu
+        </div>
+    );
+};
+
+export default RestaurantMenu;

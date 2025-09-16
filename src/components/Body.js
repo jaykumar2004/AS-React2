@@ -17,7 +17,6 @@ const Body = () => {
         );
 
         const json = await data.json();
-        console.log("Bangalore Swiggy JSON:", json);
 
         // ✅ Extract restaurants from new API format
         const restaurants =
