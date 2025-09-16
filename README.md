@@ -4,7 +4,7 @@
 
 + It is used to create local state variable inside the functional component.
 + Never ever use the useState outside of the components.
-+ Never use the useState hook or create your state variable inside the if-else
++ Never use the useState hook or create your state variable inside the if-else or any loop and also in the conditional statements.
 
 # useEffect
 
