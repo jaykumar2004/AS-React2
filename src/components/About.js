@@ -1,9 +1,7 @@
-import User from "./User"
+import UserClass from "./UserClass";
 
 const About = () => {
-    return (
-        <User/>
-    )
-}
+  return <UserClass />;
+};
 
-export default About
+export default About;
