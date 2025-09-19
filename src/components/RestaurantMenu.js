@@ -19,15 +19,6 @@ const RestaurantMenu = () => {
     setResInfo(json.data);
   };
 
-  // if (resInfo === null) return <Shimmer />;
-
-  // // ✅ Find the card that actually has restaurant info
-  // const restaurantCard = resInfo?.cards?.find(
-  //     (c) => c?.card?.card?.info
-  // );
-
-  // const name = restaurantCard?.card?.card?.info?.name;
-
   const restaurantCard = resInfo?.cards?.find((c) => c?.card?.card?.info);
 
   const { name, cuisines, costForTwoMessage } =
@@ -52,11 +43,6 @@ const RestaurantMenu = () => {
             {item.card.info.name} - ₹{item.card.info.price / 100}
           </li>
         ))}
-        <li>Item2</li>  
-        <li>Item3</li>
-        <li>Item4</li>
-        <li>Item5</li>
-        <li>Item6</li>
       </ul>
     </div>
   );
