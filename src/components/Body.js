@@ -42,7 +42,7 @@ const Body = () => {
           <input
             type="text"
             placeholder="Search Restaurant"
-            className="search-input"
+            className="border p-2 rounded-l-full text-orange-500"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -53,33 +53,37 @@ const Body = () => {
               );
               setFilteredRestaurants(filteredRestaurant);
             }}
-            className="search-btn"
+            className="border p-2 rounded-r-full cursor-pointer text-orange-500"
           >
             Search
           </button>
         </div>
-        <button
-          className="filter-btn"
-          onClick={() => {
-            const filteredList = listOfRestaurants.filter(
-              (res) => res.info.avgRating > 4.5
-            );
-            setFilteredRestaurants(filteredList);
-          }}
-        >
-          Top Rated Restaurant
-        </button>
-      </div>
-      <div className="res-container">
-        {filteredRestaurants.map((restaurant) => (
-          <Link
-            key={restaurant.info.id}
-            to={"/restaurants/" + restaurant.info.id}
+        <div className="flex p-4 ">
+          <button
+            onClick={() => {
+              const filteredList = listOfRestaurants.filter(
+                (res) => res.info.avgRating > 4.5
+              );
+              setFilteredRestaurants(filteredList);
+            }}
+            className="border p-3 rounded-full hover:bg-orange-500 hover:shadow-lg transition-all duration-300 cursor-pointer hover:text-white font-semibold text-sm"
           >
-            <RestaurantCard resData={restaurant} />
-          </Link>
-        ))}
+            Top Rated Restaurants
+          </button>
+        </div>
       </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-6">
+  {filteredRestaurants.map((restaurant) => (
+    <Link
+      key={restaurant.info.id}
+      to={"/restaurants/" + restaurant.info.id}
+      className="w-max"   
+    >
+      <RestaurantCard resData={restaurant} />
+    </Link>
+  ))}
+</div>
+
     </div>
   );
 };
