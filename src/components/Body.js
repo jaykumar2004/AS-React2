@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { isOpen } from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -8,6 +8,10 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+
+  const RestaurantIsOpen = isOpen(RestaurantCard);
+
+  console.log(listOfRestaurants);
 
   useEffect(() => {
     fetchData();
@@ -42,7 +46,7 @@ const Body = () => {
           <input
             type="text"
             placeholder="Search Restaurant"
-            className="border p-2 rounded-l-full text-orange-500"
+            className="border p-2 rounded-l-full text-orange-500 mt-5 ml-3"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -73,17 +77,20 @@ const Body = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-6">
-  {filteredRestaurants.map((restaurant) => (
-    <Link
-      key={restaurant.info.id}
-      to={"/restaurants/" + restaurant.info.id}
-      className="w-max"   
-    >
-      <RestaurantCard resData={restaurant} />
-    </Link>
-  ))}
-</div>
-
+        {filteredRestaurants.map((restaurant) => (
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurants/" + restaurant.info.id}
+            className="w-max"
+          >
+            {restaurant.info.isOpen ? (
+              <RestaurantIsOpen resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
+            )}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

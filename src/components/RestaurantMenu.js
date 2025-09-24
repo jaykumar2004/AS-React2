@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import { MENU_API } from "../utils/constants";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const [resInfo, setResInfo] = useState(null);
@@ -30,20 +31,33 @@ const RestaurantMenu = () => {
       (c) => c?.card?.card?.itemCards || []
     );
 
+  const menuSection = resInfo?.cards?.find(
+    (card) => card.groupedCard?.cardGroupMap?.REGULAR
+  )?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+
+  const categories = menuSection?.filter(
+    (section) =>
+      section?.card?.card?.["@type"] ===
+      "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+  );
+  console.log(categories);
+
   return resInfo === null ? (
     <Shimmer />
   ) : (
-    <div className="menu">
-      <h2>{name}</h2>
-      <h3>{cuisines.join(", ")}</h3>
-      <h3>{costForTwoMessage}</h3>
-      <ul>
-        {itemCards?.map((item, index) => (
-          <li key={item.card.info.id + "-" + index}>
-            {item.card.info.name} - ₹{item.card.info.price / 100}
-          </li>
-        ))}
-      </ul>
+    <div className="text-center">
+      <h2 className="font-bold text-3xl my-10">{name}</h2>
+      <p className="font-bold text-lg">
+        {cuisines.join(", ")} - {costForTwoMessage}
+      </p>
+      {categories.map((category, index) => (
+        <RestaurantCategory
+          key={category?.card?.card.title}
+          data={category?.card?.card}
+          showItems={index === showIndex ? true : false}
+          setShowIndex={() => setShowIndex(index)}
+        />
+      ))}
     </div>
   );
 };

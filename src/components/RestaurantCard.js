@@ -1,14 +1,8 @@
 import { CDN_URL } from "../utils/constants";
 
 const RestaurantCard = ({ resData }) => {
-  const {
-    cloudinaryImageId,
-    name,
-    avgRating,
-    cuisines,
-    costForTwo,
-    sla,
-  } = resData?.info;
+  const { cloudinaryImageId, name, avgRating, cuisines, costForTwo, sla } =
+    resData?.info;
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer w-60">
@@ -19,7 +13,9 @@ const RestaurantCard = ({ resData }) => {
       />
       <div className="p-3">
         <h3 className="text-md font-semibold text-gray-800 truncate">{name}</h3>
-        <h4 className="text-sm text-gray-500 truncate">{cuisines.join(", ")}</h4>
+        <h4 className="text-sm text-gray-500 truncate">
+          {cuisines.join(", ")}
+        </h4>
         <div className="flex justify-between items-center mt-2 text-sm text-gray-700">
           <span className="font-medium">⭐ {avgRating}</span>
           <span>{costForTwo}</span>
@@ -28,6 +24,21 @@ const RestaurantCard = ({ resData }) => {
       </div>
     </div>
   );
+};
+
+//Higher Order Components
+
+//input - RestaurantCard ==>> isOpen
+
+export const isOpen = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute bg-black text-white m-1 p-2 mr-5 rounded">Now Opened</label>
+        <RestaurantCard {...props}/>
+      </div>
+    );
+  };
 };
 
 export default RestaurantCard;
